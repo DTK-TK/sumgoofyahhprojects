@@ -262,9 +262,8 @@ select:focus{border-color:var(--accent)}
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-//  PUZZLE GENERATOR — randomised valid unique Sudoku
-// ══════════════════════════════════════════════════════
+  
+#  PUZZLE GENERATOR — randomised valid unique Sudoku
 function shuffle(a){
   for(let i=a.length-1;i>0;i--){const j=0|Math.random()*(i+1);[a[i],a[j]]=[a[j],a[i]]}
   return a;
@@ -319,18 +318,15 @@ function createPuzzle(diff){
   return{puzzle:puz,solution:full,clues};
 }
 
-// ══════════════════════════════════════════════════════
-//  STATE
-// ══════════════════════════════════════════════════════
+#  STATE
 let board=[],givenMask=[],solution=[];
 let selR=-1,selC=-1;
 let iterations=0,backtracks=0,solvedCells=0,totalEmpty=0,finalIter=0;
 let solving=false,abortFlag=false,startTime=0;
 let currentDiff='easy',puzzleId=0;
 
-// ══════════════════════════════════════════════════════
+
 //  GRID DOM
-// ══════════════════════════════════════════════════════
 function buildGrid(){
   const g=document.getElementById('grid');g.innerHTML='';
   for(let r=0;r<9;r++)for(let c=0;c<9;c++){
@@ -392,9 +388,7 @@ document.addEventListener('keydown',e=>{
   if(d){selR=Math.max(0,Math.min(8,selR+d[0]));selC=Math.max(0,Math.min(8,selC+d[1]));renderAll();e.preventDefault()}
 });
 
-// ══════════════════════════════════════════════════════
 //  PUZZLE MANAGEMENT
-// ══════════════════════════════════════════════════════
 function newPuzzle(diff){
   if(solving)stopSolve();
   currentDiff=diff;puzzleId++;
@@ -440,9 +434,7 @@ function resetToOriginal(){
   renderAll();
 }
 
-// ══════════════════════════════════════════════════════
 //  BACKTRACKING SOLVER (async animated)
-// ══════════════════════════════════════════════════════
 async function startSolve(){
   if(solving||!board.length)return;
   solving=true;abortFlag=false;
@@ -520,9 +512,7 @@ function renderLive(r,c,v){
 
 function sleep(ms){return new Promise(res=>setTimeout(res,ms))}
 
-// ══════════════════════════════════════════════════════
 //  STATS
-// ══════════════════════════════════════════════════════
 function updateCounterUI(n){
   document.getElementById('iter-display').textContent=fmtNum(n);
   document.getElementById('ss-emp').textContent=n?fmtSci(n):'—';
@@ -585,9 +575,7 @@ function resetIATable(){
   document.getElementById('qf-badge').textContent='Generate and solve a puzzle to see speedup';
 }
 
-// ══════════════════════════════════════════════════════
 //  LOG
-// ══════════════════════════════════════════════════════
 function addLog(msg,cls=''){
   const box=document.getElementById('log');
   const line=document.createElement('div');
@@ -597,20 +585,9 @@ function addLog(msg,cls=''){
   if(box.children.length>80)box.removeChild(box.firstChild);
 }
 
-// ══════════════════════════════════════════════════════
-//  COPY IA ROW
-// ══════════════════════════════════════════════════════
-function copyIAData(){
-  const ids=['ia-id','ia-diff','ia-n','ia-m','ia-emp','ia-neff2','ia-k','ia-speedup'];
-  const row=ids.map(id=>document.getElementById(id).textContent).join('\t');
-  navigator.clipboard.writeText(row)
-    .then(()=>addLog('Row copied to clipboard — paste into spreadsheet','acc'))
-    .catch(()=>addLog('Clipboard blocked — copy manually from table','err'));
-}
 
-// ══════════════════════════════════════════════════════
-//  FORMATTERS
-// ══════════════════════════════════════════════════════
+ #FORMATTERS
+
 function fmtNum(n){
   if(!isFinite(n)||n===0)return'0';
   if(n>=1e15)return fmtSci(n);
@@ -623,12 +600,11 @@ function fmtSci(n){
   return(n/Math.pow(10,e)).toFixed(2)+'×10^'+e;
 }
 
-// ══════════════════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════════════════
+ #INIT
 buildGrid();
 buildNumpad();
 newPuzzle('easy');
 </script>
 </body>
+
 </html>
